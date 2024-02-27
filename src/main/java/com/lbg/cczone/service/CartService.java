@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.lbg.cczone.Repos.CartRepo;
 import com.lbg.cczone.domain.Cart;
+import com.lbg.cczone.domain.Item;
 
 @Service
 public class CartService {
@@ -21,7 +22,22 @@ public class CartService {
 		this.repo = repo;
 	}
 
+//	public List<Cart> getCart() {
+//		return this.repo.findAll();
+//	}
+
 	public List<Cart> getCart() {
+		List<Cart> cartTotal = this.repo.findAll();
+		List<Item> items;
+		for (Cart cart : cartTotal) {
+			items = cart.getItems();
+			Double total = 0.0;
+			for (Item item : items) {
+				total = total + (item.getItemPrice()) * (item.getItemQuantity());
+			}
+			System.out.println(total);
+		}
+
 		return this.repo.findAll();
 	}
 
@@ -49,9 +65,6 @@ public class CartService {
 		Cart existing = found.get();
 		if (cart.getItems() != null) {
 			existing.setItems(cart.getItems());
-		}
-		if (cart.getCartItemQuantity() != null) {
-			existing.setCartItemQuantity(cart.getCartItemQuantity());
 		}
 
 		Cart updated = this.repo.save(existing);
