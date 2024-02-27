@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lbg.cczone.domain.Item;
+import com.lbg.cczone.dtos.ItemDTO;
 import com.lbg.cczone.service.ItemService;
 
 @RestController
@@ -27,7 +28,7 @@ public class ItemController {
 	}
 
 	@GetMapping("/get")
-	public List<Item> getItem() {
+	public List<ItemDTO> getItem() {
 		return this.service.getItem();
 
 	}

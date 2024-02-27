@@ -1,5 +1,6 @@
 package com.lbg.cczone.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.lbg.cczone.Repos.ItemRepo;
 import com.lbg.cczone.domain.Item;
+import com.lbg.cczone.dtos.ItemDTO;
 
 @Service
 public class ItemService {
@@ -19,8 +21,26 @@ public class ItemService {
 		this.repo = repo;
 	}
 
-	public List<Item> getItem() {
-		return this.repo.findAll();
+	public List<ItemDTO> getItem() {
+		List<Item> items = this.repo.findAll();
+
+		List<ItemDTO> dtos = new ArrayList<>();
+
+		for (Item item : items) {
+			ItemDTO dto = new ItemDTO();
+
+			dto.setId(item.getId());
+			dto.setItemName(item.getItemName());
+			dto.setItemPrice(item.getItemPrice());
+			dto.setItemQuantity(item.getItemQuantity());
+			if (item.getCart() != null) {
+				dto.setCartId(item.getCart().getId());
+			}
+			dtos.add(dto);
+
+		}
+		return dtos;
+
 	}
 
 	public ResponseEntity<Item> getItem(int id) {

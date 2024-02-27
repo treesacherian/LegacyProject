@@ -1,37 +1,32 @@
-package com.lbg.cczone.domain;
+package com.lbg.cczone.dtos;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.lbg.cczone.domain.Item;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+public class ItemDTO {
 
-@Entity
-public class Item {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
 	private String itemName;
+
 	private Double itemPrice;
+
 	private Integer itemQuantity;
-	@JsonBackReference
-	@ManyToOne
-	private Cart cart;
 
-	public Item() {
+	private Integer cartId;
+
+	public ItemDTO(Item item) {
 		super();
-		// TODO Auto-generated constructor stub
+		this.setId(item.getId());
+		this.setItemName(item.getItemName());
+		this.setItemPrice(item.getItemPrice());
+		this.setItemQuantity(item.getItemQuantity());
+		if (item.getCart() != null) {
+			this.setCartId(item.getCart().getId());
+		}
 	}
 
-	public Cart getCart() {
-		return cart;
-	}
+	public ItemDTO() {
 
-	public void setCart(Cart cart) {
-		this.cart = cart;
 	}
 
 	public Integer getId() {
@@ -64,6 +59,14 @@ public class Item {
 
 	public void setItemQuantity(Integer itemQuantity) {
 		this.itemQuantity = itemQuantity;
+	}
+
+	public Integer getCartId() {
+		return cartId;
+	}
+
+	public void setCartId(Integer cartId) {
+		this.cartId = cartId;
 	}
 
 }

@@ -47,8 +47,8 @@ public class CartService {
 			return new ResponseEntity<Cart>(HttpStatus.NOT_FOUND);
 		}
 		Cart existing = found.get();
-		if (cart.getItem() != null) {
-			existing.setItem(cart.getItem());
+		if (cart.getItems() != null) {
+			existing.setItems(cart.getItems());
 		}
 		if (cart.getCartItemQuantity() != null) {
 			existing.setCartItemQuantity(cart.getCartItemQuantity());
