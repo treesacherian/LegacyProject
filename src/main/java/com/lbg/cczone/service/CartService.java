@@ -35,7 +35,7 @@ public class CartService {
 			for (Item item : items) {
 				total = total + (item.getItemPrice()) * (item.getItemQuantity());
 			}
-			System.out.println(total);
+			System.out.println("cart" + cart.getId() + ": " + total);
 		}
 
 		return this.repo.findAll();
