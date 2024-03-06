@@ -35,7 +35,7 @@ public class CartService {
 			for (Item item : items) {
 				total = total + (item.getItemPrice()) * (item.getItemQuantity());
 			}
-			System.out.println(total);
+			System.out.println("cart" + cart.getId() + ": " + total);
 		}
 
 		return this.repo.findAll();
@@ -51,10 +51,10 @@ public class CartService {
 
 	}
 
-	public ResponseEntity<Cart> createCart(Cart cart) {
+	public ResponseEntity<Object> createCart(Cart cart) {
 
 		Cart created = this.repo.save(cart);
-		return new ResponseEntity<Cart>(created, HttpStatus.CREATED);
+		return new ResponseEntity<Object>(created, HttpStatus.CREATED);
 	}
 
 	public ResponseEntity<Cart> updateCart(int id, Cart cart) {
