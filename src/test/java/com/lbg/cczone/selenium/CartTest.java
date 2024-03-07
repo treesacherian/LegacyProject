@@ -109,4 +109,32 @@ public class CartTest {
 		Assertions.assertEquals(1, carts.size());
 	}
 
+	@Test
+	@Order(5)
+
+	void updateItemQuantity() {
+		this.driver.get("http://localhost:3000/cart");
+		WebElement UpdateItem = this.driver.findElement(By.cssSelector(
+				"body > div > div:nth-child(3) > div > div:nth-child(4) > div > div:nth-child(1) > div > div > div.card-text > button:nth-child(2)"));
+		this.driver.executeScript("arguments[0].scrollIntoView(true);", UpdateItem);
+		this.driver.executeScript("arguments[0].click();", UpdateItem);
+
+		WebElement UpdateSelect = this.driver.findElement(
+				By.cssSelector("body > div > div:nth-child(3) > div > div:nth-child(10) > div > button:nth-child(3)"));
+		this.driver.executeScript("arguments[0].scrollIntoView(true);", UpdateSelect);
+		this.driver.executeScript("arguments[0].click();", UpdateSelect);
+
+		WebElement newItemQuantity = this.driver.findElement(By.id("itemQuantity"));
+		newItemQuantity.sendKeys("8");
+
+		WebElement UpdateSubmit = this.driver
+				.findElement(By.cssSelector("body > div > div:nth-child(3) > form > button"));
+		this.driver.executeScript("arguments[0].scrollIntoView(true);", UpdateSubmit);
+		this.driver.executeScript("arguments[0].click();", UpdateSubmit);
+
+		WebElement CheckQuantity = this.driver.findElement(
+				By.cssSelector("body > div > div:nth-child(3) > div > div:nth-child(10) > div > div > p:nth-child(4)"));
+		Assertions.assertEquals("QUANTITY: 8", CheckQuantity.getText());
+	}
+
 }
