@@ -1,9 +1,12 @@
 package com.lbg.cczone.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Item {
@@ -14,10 +17,21 @@ public class Item {
 	private String itemName;
 	private Double itemPrice;
 	private Integer itemQuantity;
+	@JsonBackReference
+	@ManyToOne
+	private Cart cart;
 
 	public Item() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 
 	public Integer getId() {

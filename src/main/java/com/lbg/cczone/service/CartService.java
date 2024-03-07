@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.lbg.cczone.Repos.CartRepo;
 import com.lbg.cczone.domain.Cart;
+import com.lbg.cczone.domain.Item;
 
 @Service
 public class CartService {
@@ -21,7 +22,22 @@ public class CartService {
 		this.repo = repo;
 	}
 
+//	public List<Cart> getCart() {
+//		return this.repo.findAll();
+//	}
+
 	public List<Cart> getCart() {
+		List<Cart> cartTotal = this.repo.findAll();
+		List<Item> items;
+		for (Cart cart : cartTotal) {
+			items = cart.getItems();
+			Double total = 0.0;
+			for (Item item : items) {
+				total = total + (item.getItemPrice()) * (item.getItemQuantity());
+			}
+			System.out.println("cart" + cart.getId() + ": " + total);
+		}
+
 		return this.repo.findAll();
 	}
 
@@ -35,10 +51,10 @@ public class CartService {
 
 	}
 
-	public ResponseEntity<Cart> createCart(Cart cart) {
+	public ResponseEntity<Object> createCart(Cart cart) {
 
 		Cart created = this.repo.save(cart);
-		return new ResponseEntity<Cart>(created, HttpStatus.CREATED);
+		return new ResponseEntity<Object>(created, HttpStatus.CREATED);
 	}
 
 	public ResponseEntity<Cart> updateCart(int id, Cart cart) {
@@ -47,11 +63,8 @@ public class CartService {
 			return new ResponseEntity<Cart>(HttpStatus.NOT_FOUND);
 		}
 		Cart existing = found.get();
-		if (cart.getItem() != null) {
-			existing.setItem(cart.getItem());
-		}
-		if (cart.getCartItemQuantity() != null) {
-			existing.setCartItemQuantity(cart.getCartItemQuantity());
+		if (cart.getItems() != null) {
+			existing.setItems(cart.getItems());
 		}
 
 		Cart updated = this.repo.save(existing);

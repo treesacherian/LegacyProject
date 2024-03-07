@@ -3,21 +3,22 @@ package com.lbg.cczone.rest;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lbg.cczone.domain.Cart;
 import com.lbg.cczone.service.CartService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-
 @RestController
 @RequestMapping("/cart")
+@CrossOrigin
 
 public class CartController {
 
@@ -39,7 +40,7 @@ public class CartController {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<Cart> createCart(@RequestBody Cart cart) {
+	public ResponseEntity<Object> createCart(@RequestBody Cart cart) {
 		return this.service.createCart(cart);
 	}
 

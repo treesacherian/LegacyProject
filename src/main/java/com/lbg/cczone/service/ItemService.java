@@ -1,5 +1,6 @@
 package com.lbg.cczone.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.lbg.cczone.Repos.ItemRepo;
 import com.lbg.cczone.domain.Item;
+import com.lbg.cczone.dtos.ItemDTO;
 
 @Service
 public class ItemService {
@@ -19,18 +21,36 @@ public class ItemService {
 		this.repo = repo;
 	}
 
-	public List<Item> getItem() {
-		return this.repo.findAll();
+	public List<ItemDTO> getItem() {
+		List<Item> items = this.repo.findAll();
+
+		List<ItemDTO> dtos = new ArrayList<>();
+
+		for (Item item : items) {
+			ItemDTO dto = new ItemDTO();
+
+			dto.setId(item.getId());
+			dto.setItemName(item.getItemName());
+			dto.setItemPrice(item.getItemPrice());
+			dto.setItemQuantity(item.getItemQuantity());
+			if (item.getCart() != null) {
+				dto.setCartId(item.getCart().getId());
+			}
+			dtos.add(dto);
+
+		}
+		return dtos;
+
 	}
 
-	public ResponseEntity<Item> getItem(int id) {
-		Optional<Item> found = this.repo.findById(id);
-		if (found.isEmpty()) {
-			return new ResponseEntity<Item>(HttpStatus.NOT_FOUND);
-		}
-		Item body = found.get();
-		return ResponseEntity.ok(body);
-	}
+//	public ResponseEntity<Item> getItem(int id) {
+//		Optional<Item> found = this.repo.findById(id);
+//		if (found.isEmpty()) {
+//			return new ResponseEntity<Item>(HttpStatus.NOT_FOUND);
+//		}
+//		Item body = found.get();
+//		return ResponseEntity.ok(body);
+//	}
 
 	public ResponseEntity<Item> createItem(Item item) {
 		Item created = this.repo.save(item);
@@ -43,12 +63,12 @@ public class ItemService {
 			return new ResponseEntity<Item>(HttpStatus.NOT_FOUND);
 		}
 		Item existing = found.get();
-		if (item.getItemName() != null) {
-			existing.setItemName(item.getItemName());
-		}
-		if (item.getItemPrice() != null) {
-			existing.setItemPrice(item.getItemPrice());
-		}
+//		if (item.getItemName() != null) {
+//			existing.setItemName(item.getItemName());
+//		}
+//		if (item.getItemPrice() != null) {
+//			existing.setItemPrice(item.getItemPrice());
+//		}
 		if (item.getItemQuantity() != null) {
 			existing.setItemQuantity(item.getItemQuantity());
 		}
